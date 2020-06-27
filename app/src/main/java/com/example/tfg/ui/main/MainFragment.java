@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -23,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.tfg.IOnBackPressed;
@@ -35,8 +37,8 @@ import java.io.InputStream;
 public class MainFragment extends Fragment implements IOnBackPressed {
 
     private MainViewModel mViewModel;
-    private Button bRealizarTest, bReconocerColor, bPerfiles, bPaleta;
-    private Button bCam, bFile;
+    private Button bRealizarTest, bReconocerColor;
+    private ImageButton bCam, bFile, bPerfiles, bPaleta;
     private boolean permisos;
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -69,11 +71,12 @@ public class MainFragment extends Fragment implements IOnBackPressed {
 
         bRealizarTest=(Button)getView().findViewById(R.id.buttonRealizarTest);
         bReconocerColor=(Button)getView().findViewById(R.id.buttonReconocerColor);
-        bPaleta=(Button)getView().findViewById(R.id.buttonPaleta);
-        bPerfiles=(Button)getView().findViewById(R.id.buttonPerfiles);
+        bPaleta=(ImageButton)getView().findViewById(R.id.buttonPaleta);
+        bPerfiles=(ImageButton)getView().findViewById(R.id.buttonPerfiles);
 
-        bCam=(Button)getView().findViewById(R.id.button3);
-        bFile=(Button)getView().findViewById(R.id.button4);
+        bCam=(ImageButton)getView().findViewById(R.id.button3);
+        bFile = (ImageButton) getView().findViewById(R.id.button4);
+
 
         bReconocerColor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +133,8 @@ public class MainFragment extends Fragment implements IOnBackPressed {
                 bReconocerColor.setEnabled(false);
                 bPaleta.setEnabled(false);
                 bPerfiles.setEnabled(false);
+                bFile.setEnabled(false);
+                bCam.setEnabled(false);
                 transaction.commit();
             }
         });
@@ -150,7 +155,9 @@ public class MainFragment extends Fragment implements IOnBackPressed {
         if (permisos){
 
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-            startActivityForResult(intent,41);
+            if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivityForResult(intent,41);
+            }else Toast.makeText(getContext(),"No posee instalada una cámara", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -160,6 +167,8 @@ public class MainFragment extends Fragment implements IOnBackPressed {
         bReconocerColor.setEnabled(true);
         bPaleta.setEnabled(true);
         bPerfiles.setEnabled(true);
+        bCam.setEnabled(true);
+        bFile.setEnabled(true);
         return false;
     }
     private void fileChoose(){
@@ -180,9 +189,14 @@ public class MainFragment extends Fragment implements IOnBackPressed {
                 return;
             }
 
+            Intent intent = new Intent(getActivity(), Main2Activity.class);
+            if (requestCode ==42){
+                intent.putExtra("uriData",data.getData());
 
-                Intent intent = new Intent(getActivity(), Main2Activity.class);
-            intent.putExtra("data",data.getData());
+            }else if(requestCode==41){
+
+                intent.putExtras(data.getExtras());
+            }
             startActivityForResult(intent,1);
         }
     }

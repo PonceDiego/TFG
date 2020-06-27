@@ -3,6 +3,7 @@ package com.example.tfg;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.AsyncTask;
@@ -34,8 +35,15 @@ public class Main2Activity extends AppCompatActivity {
 
             Main2Activity.this.runOnUiThread(new Runnable() {
                 public void run() {
-                    imagen.setImageURI((Uri) b.get("data"));
-                    Log.v("thread", "cargó");
+                    if(b.get("uriData")==null){
+                        imagen.setImageBitmap((Bitmap)b.get("data"));
+                        Log.v("Carga", "Bitmappppp ");
+                    }else{
+
+                        imagen.setImageURI((Uri)b.get("uriData"));
+                        Log.v("Carga", "Uriiiii");
+
+                    }
                 }
             });
             findViewById(R.id.loadingPanel).setVisibility(View.GONE);
