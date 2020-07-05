@@ -2,23 +2,25 @@ package com.example.tfg.ui.main;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +33,7 @@ import com.example.tfg.IOnBackPressed;
 import com.example.tfg.Main2Activity;
 import com.example.tfg.R;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.File;
 
 public class MainFragment extends Fragment implements IOnBackPressed {
 
@@ -40,6 +41,12 @@ public class MainFragment extends Fragment implements IOnBackPressed {
     private Button bRealizarTest, bReconocerColor;
     private ImageButton bCam, bFile, bPerfiles, bPaleta;
     private boolean permisos;
+    private final int CAMERA_PIC = 41;
+    private final int FILE_PIC=42;
+    private String extra;
+    private static final String CAPTURE_IMAGE_FILE_PROVIDER = "com.ponce.tfg";
+    private Context context;
+
     public static MainFragment newInstance() {
         return new MainFragment();
     }
@@ -48,6 +55,8 @@ public class MainFragment extends Fragment implements IOnBackPressed {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        context=getActivity().getApplicationContext();
+
         return inflater.inflate(R.layout.main_fragment, container, false);
     }
 
@@ -69,13 +78,13 @@ public class MainFragment extends Fragment implements IOnBackPressed {
     public void onViewCreated(@NonNull View view, @Nullable final Bundle savedInstanceState) {
 
 
-        bRealizarTest=(Button)getView().findViewById(R.id.buttonRealizarTest);
-        bReconocerColor=(Button)getView().findViewById(R.id.buttonReconocerColor);
-        bPaleta=(ImageButton)getView().findViewById(R.id.buttonPaleta);
-        bPerfiles=(ImageButton)getView().findViewById(R.id.buttonPerfiles);
+        bRealizarTest= getView().findViewById(R.id.buttonRealizarTest);
+        bReconocerColor= getView().findViewById(R.id.buttonReconocerColor);
+        bPaleta= getView().findViewById(R.id.buttonPaleta);
+        bPerfiles= getView().findViewById(R.id.buttonPerfiles);
 
-        bCam=(ImageButton)getView().findViewById(R.id.button3);
-        bFile = (ImageButton) getView().findViewById(R.id.button4);
+        bCam= getView().findViewById(R.id.button3);
+        bFile = getView().findViewById(R.id.button4);
 
 
         bReconocerColor.setOnClickListener(new View.OnClickListener() {
@@ -153,14 +162,31 @@ public class MainFragment extends Fragment implements IOnBackPressed {
             Log.v("permiso", "YA CONCEDIDOOOOOOO");
         }
         if (permisos){
+            File path = new File(getActivity().getFilesDir(), "tfg/camera/");
+            if (!path.exists()) path.mkdirs();
+            File image = new File(path, "image.jpg");
+            Uri imageUri = FileProvider.getUriForFile(getActivity(), CAPTURE_IMAGE_FILE_PROVIDER, image);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            extra=imageUri.toString();
 
-            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            Log.v("uriString",extra);
+
+
             if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                startActivityForResult(intent,41);
+                startActivityForResult(intent,CAMERA_PIC);
             }else Toast.makeText(getContext(),"No posee instalada una cámara", Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void fileChoose(){
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+
+        startActivityForResult(intent, FILE_PIC);
+
+    }
     @Override
     public boolean onBackPressed() {
         bRealizarTest.setEnabled(true);
@@ -171,33 +197,21 @@ public class MainFragment extends Fragment implements IOnBackPressed {
         bFile.setEnabled(true);
         return false;
     }
-    private void fileChoose(){
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        startActivityForResult(intent, 42);
-
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode >40 && resultCode == getActivity().RESULT_OK) {
-
-            Log.v("onActRes", "pasó");
-            if (data == null) {
-                //Display an error
-                Log.e("onActResult", "data= null");
-                return;
+        if (requestCode ==CAMERA_PIC || requestCode==FILE_PIC && resultCode == getActivity().RESULT_OK) {
+            Intent intent2 = new Intent(getActivity(), Main2Activity.class);
+            if (requestCode == FILE_PIC){
+                if (data == null) {
+                    Log.e("onActResult", "data= null");
+                    Toast.makeText(getContext(),"Ocurrió un error, por favor inténtelo nuevamente.",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                intent2.putExtra("fileUri",data.getData());
+            }else{
+                intent2.putExtra("photoUri",extra);
             }
-
-            Intent intent = new Intent(getActivity(), Main2Activity.class);
-            if (requestCode ==42){
-                intent.putExtra("uriData",data.getData());
-
-            }else if(requestCode==41){
-
-                intent.putExtras(data.getExtras());
-            }
-            startActivityForResult(intent,1);
+            startActivityForResult(intent2,1);
         }
     }
 }
