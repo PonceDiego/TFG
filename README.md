@@ -17,6 +17,9 @@
 - [ ] Agregar perfil
 - [ ] Seleccionar perfil
 
+![Intefaz Aplicación] (/images/interfaz.png)
+Format: ![Alt Text](url)
+
 
 #### Palabras clave: Aplicación móvil, Daltonismo, Prueba de Ishihara, Reconocimiento de colores.
 #### KeyWords: Mobile app, Colorblind, Ishihara Test, Color recognition.
