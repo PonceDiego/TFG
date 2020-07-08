@@ -9,13 +9,13 @@
 - [x] Tomar foto
 - [x] Describir color seleccionado
 - [ ] Destacar color específico
-- [ ] Ver paleta de colores
+- [x] Ver paleta de colores
 - [ ] Ver placas de Ishihara
 - [ ] Ver resultado del test
-- [ ] Seleccionar paleta principal
-- [ ] Ver lista de perfiles
+- [x] Seleccionar paleta principal
+- [x] Ver lista de perfiles
 - [ ] Agregar perfil
-- [ ] Seleccionar perfil
+- [x] Seleccionar perfil
 
 ### Interfaz de reconocimiento de colores.
 ![alt text](https://github.com/PonceDiego/TFG/blob/master/readMeImages/InterfazAplicacion.png)
