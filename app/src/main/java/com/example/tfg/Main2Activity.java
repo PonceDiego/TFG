@@ -67,13 +67,9 @@ public class Main2Activity extends AppCompatActivity {
                             final Uri imageUri = (Uri)b.get("fileUri");
                             final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                             Drawable drawable = new BitmapDrawable(getResources(), imageStream);
-                            if (drawable instanceof BitmapDrawable) {
-                                BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-                                if(bitmapDrawable.getBitmap() != null) {
-                                    bitmap= Bitmap.createBitmap(bitmapDrawable.getBitmap());
-                                }
-                            }else{
-                                Toast.makeText(getApplicationContext(),"Hubo un error con la imagen :(",Toast.LENGTH_LONG).show();
+                            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+                            if(bitmapDrawable.getBitmap() != null) {
+                                bitmap= Bitmap.createBitmap(bitmapDrawable.getBitmap());
                             }
                             colorPickerView.setPaletteDrawable(drawable);
                         } catch (FileNotFoundException e) {
@@ -122,7 +118,7 @@ public class Main2Activity extends AppCompatActivity {
         MyTaskParams[] pum = new MyTaskParams[1];
         pum[0]=myTaskParams;
         AsyncTask run= new DetectarColor();
-        run.execute(pum);
+        run.execute( (Object[])pum);
     }
     private void abrirSelector() {
         new ColorPickerDialog.Builder(this, R.style.Theme_AppCompat_Dialog)
@@ -155,7 +151,7 @@ public class Main2Activity extends AppCompatActivity {
         protected int[][] doInBackground(MyTaskParams... myTaskParams) {
             Bitmap b=myTaskParams[0].foo;
             String hex=myTaskParams[0].bar;
-            Long value = Long.parseLong(hex, 16);
+            long value = Long.parseLong(hex, 16);
             int redR = (int) (0xFF & ( value >> 16));
             int greenR = (int) (0xFF & (value >> 8 ));
             int blueR = (int) (0xFF & (value >> 0 ));

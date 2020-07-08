@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="primarioVioleta">#6200EE</color>
+    <color name="primarioVioletaLight">#88b894eb</color>
+    <color name="primarioVioletaDark">#3700B3</color>
+    <color name="violetaAccent">#03DAC5</color>
+
+
+    <color name="primarioRojo">#D34747</color>
+    <color name="primarioRojoLight">#FFA3A3</color>
+    <color name="primarioRojoDark">#8F0D0D</color>
+    <color name="rojoAccent">#5CC45C</color>
+
+
+    <color name="primarioVerde">#2F8B6F</color>
+    <color name="primarioVerdeLight">#7CC3AE</color>
+    <color name="primarioVerdeDark">#085F44</color>
+    <color name="verdeAccent">#F5A173</color>
+
+    <color name="primarioAzul">#336487</color>
+    <color name="primarioAzulLight">#7FA5BF</color>
+    <color name="primarioAzulDark">#0D3B5C</color>
+    <color name="azulAccent">#F5BD73</color>
+
+
+
+
+
+
+
     <color name="background">#d3d3d3</color>
     <color name="lightBlue" >#add8e6 </color>
+    <color name="white">#ffffff</color>
+    <color name="white_transparente">#88ffffff</color>
+    <color name="black">#000000</color>
+    <color name="black_transparente">#88000000</color>
 </resources>

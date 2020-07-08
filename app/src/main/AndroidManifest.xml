@@ -11,7 +11,7 @@
         android:icon="@mipmap/ic_launcherv2"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/VioletaTheme">
         <activity android:name=".Main2Activity"/>
         <activity android:name=".MainActivity">
             <intent-filter>

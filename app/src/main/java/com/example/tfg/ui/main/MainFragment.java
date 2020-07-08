@@ -1,5 +1,7 @@
 package com.example.tfg.ui.main;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -8,36 +10,41 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.tfg.IOnBackPressed;
 import com.example.tfg.Main2Activity;
+import com.example.tfg.MainActivity;
 import com.example.tfg.R;
 
 import java.io.File;
 
 public class MainFragment extends Fragment implements IOnBackPressed {
 
-    private MainViewModel mViewModel;
     private Button bRealizarTest, bReconocerColor;
     private ImageButton bCam, bFile, bPerfiles, bPaleta;
     private boolean permisos;
@@ -46,6 +53,8 @@ public class MainFragment extends Fragment implements IOnBackPressed {
     private String extra;
     private static final String CAPTURE_IMAGE_FILE_PROVIDER = "com.ponce.tfg";
     private Context context;
+    private int checkedItem = 0; // Diego
+
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -63,8 +72,6 @@ public class MainFragment extends Fragment implements IOnBackPressed {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -82,6 +89,10 @@ public class MainFragment extends Fragment implements IOnBackPressed {
         bReconocerColor= getView().findViewById(R.id.buttonReconocerColor);
         bPaleta= getView().findViewById(R.id.buttonPaleta);
         bPerfiles= getView().findViewById(R.id.buttonPerfiles);
+        bReconocerColor.getBackground().setAlpha(200);
+        bRealizarTest.getBackground().setAlpha(200);
+        bPerfiles.getBackground().setAlpha(225);
+        bPerfiles.getBackground().setAlpha(225);
 
         bCam= getView().findViewById(R.id.button3);
         bFile = getView().findViewById(R.id.button4);
@@ -104,27 +115,56 @@ public class MainFragment extends Fragment implements IOnBackPressed {
         bPaleta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"flaco esto es paleta",Toast.LENGTH_SHORT).show();
+                cambiarPaleta();
             }
         });
 
         bPerfiles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"flaco esto es perfiles",Toast.LENGTH_SHORT).show();
+
+                // setup the alert builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                builder.setTitle("Selección de perfil.");
+
+                // add a radio button list
+                String[] perfiles = {"Diego", "Alumno1", "Alumno2", "Alumno3"};
+
+                builder.setSingleChoiceItems(perfiles, checkedItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        checkedItem=which;
+                        // user checked an item
+                    }
+                });
+
+                // add OK and Cancel buttons
+                builder.setPositiveButton(getResources().getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // user clicked OK
+                    }
+                });
+                builder.setNegativeButton(getResources().getString(R.string.cancel), null);
+
+                // create and show the alert dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
             }
         });
+
+
         bCam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Cámara!",Toast.LENGTH_SHORT).show();
                 takePhoto();
             }
         });
         bFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Archivo!",Toast.LENGTH_SHORT).show();
                 fileChoose();
 
 
@@ -144,10 +184,100 @@ public class MainFragment extends Fragment implements IOnBackPressed {
                 bPerfiles.setEnabled(false);
                 bFile.setEnabled(false);
                 bCam.setEnabled(false);
+                bRealizarTest.setVisibility(View.INVISIBLE);
+                bReconocerColor.setVisibility(View.INVISIBLE);
                 transaction.commit();
             }
         });
+
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ActionBar mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        Window window = getActivity().getWindow();
+        switch (MainActivity.currentTheme){
+            default:
+            case "VioletaTheme":
+               violetaSettings(window,mActionBar);
+                break;
+            case "AzulTheme":
+                azulSettings(window,mActionBar);
+                break;
+            case "RojoTheme":
+               rojoSettings(window,mActionBar);
+                break;
+            case "GreenTheme":
+                verdeSettings(window,mActionBar);
+                break;
+        }
+    }
+
+    private void cambiarPaleta(){
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setTitle("Selección de paleta.");
+
+        // add a radio button list
+        String[] paletas = {"Violeta", "Azul", "Rojo", "Verde"};
+        int elegido =0;
+        switch (MainActivity.currentTheme){
+            default:
+            case "VioletaTheme":
+                elegido=0;
+                break;
+            case "AzulTheme":
+                elegido=1;
+                break;
+            case "RojoTheme":
+                elegido=2;
+                break;
+            case "GreenTheme":
+                elegido=3;
+                break;
+
+            }
+            builder.setSingleChoiceItems(paletas,elegido , new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ActionBar mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+                Window window = getActivity().getWindow();
+                // user checked an item
+                switch (which){
+                    case 0:
+                        violetaSettings(window,mActionBar);
+                        break;
+                    case 1:
+                        azulSettings(window,mActionBar);
+                        break;
+                    case 2:
+                        rojoSettings(window,mActionBar);
+                        break;
+                    case 3:
+                        verdeSettings(window,mActionBar);
+                        break;
+                }
+            }
+            });
+
+        // add OK and Cancel buttons
+        builder.setPositiveButton(getResources().getString(R.string.confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user clicked OK
+            }
+        });
+        builder.setNegativeButton(getResources().getString(R.string.cancel), null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+    }
+
 
     private void takePhoto() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -191,6 +321,8 @@ public class MainFragment extends Fragment implements IOnBackPressed {
     public boolean onBackPressed() {
         bRealizarTest.setEnabled(true);
         bReconocerColor.setEnabled(true);
+        bRealizarTest.setVisibility(View.VISIBLE);
+        bReconocerColor.setVisibility(View.VISIBLE);
         bPaleta.setEnabled(true);
         bPerfiles.setEnabled(true);
         bCam.setEnabled(true);
@@ -213,5 +345,34 @@ public class MainFragment extends Fragment implements IOnBackPressed {
             }
             startActivityForResult(intent2,1);
         }
+    }
+    private void violetaSettings(Window window, ActionBar mActionBar){
+
+        MainActivity.currentTheme="VioletaTheme";
+        window.setStatusBarColor(getResources().getColor(R.color.primarioVioletaDark));
+        window.setNavigationBarColor(getResources().getColor(R.color.primarioVioletaLight));
+        mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioVioleta)));
+        getView().setBackground(getResources().getDrawable(R.drawable.background_purple));
+    }
+    private void azulSettings(Window window, ActionBar mActionBar){
+        MainActivity.currentTheme="AzulTheme";
+        window.setStatusBarColor(getResources().getColor(R.color.primarioAzulDark));
+        window.setNavigationBarColor(getResources().getColor(R.color.primarioAzulLight));
+        mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioAzul)));
+        getView().setBackground(getResources().getDrawable(R.drawable.background_blue));
+    }
+    private void verdeSettings(Window window, ActionBar mActionBar){
+        MainActivity.currentTheme="GreenTheme";
+        window.setStatusBarColor(getResources().getColor(R.color.primarioVerdeDark));
+        window.setNavigationBarColor(getResources().getColor(R.color.primarioVerdeLight));
+        mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioVerde)));
+        getView().setBackground(getResources().getDrawable(R.drawable.background_green));
+    }
+    private void rojoSettings(Window window, ActionBar mActionBar){
+        MainActivity.currentTheme="RojoTheme";
+        window.setStatusBarColor(getResources().getColor(R.color.primarioRojoDark));
+        window.setNavigationBarColor(getResources().getColor(R.color.primarioRojoLight));
+        mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioRojo)));
+        getView().setBackground(getResources().getDrawable(R.drawable.background_red));
     }
 }

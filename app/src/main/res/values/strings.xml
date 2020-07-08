@@ -6,4 +6,7 @@
     <string name="confirm">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="destacar_color">Destacar</string>
+    <string name="realizar_test">Realizar test</string>
+    <string name="reconocer_color">Reconocer color</string>
 </resources>
+
