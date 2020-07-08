@@ -17,8 +17,8 @@
 - [ ] Agregar perfil
 - [ ] Seleccionar perfil
 
-![Intefaz Aplicación] (/images/interfaz.png)
-Format: ![Alt Text](url)
+### Interfaz de reconocimiento de colores.
+![alt text](https://github.com/PonceDiego/TFG/blob/master/readMeImages/InterfazAplicacion.png)
 
 
 #### Palabras clave: Aplicación móvil, Daltonismo, Prueba de Ishihara, Reconocimiento de colores.
