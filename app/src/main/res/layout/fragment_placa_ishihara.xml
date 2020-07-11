@@ -9,50 +9,76 @@
 
     <Button
         android:id="@+id/buttonOption1"
-        android:layout_width="wrap_content"
+        style="@style/ButtonApp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="83dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_rounded"
         android:text="5"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewIshihara"
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintWidth_percent=".7" />
 
     <Button
         android:id="@+id/buttonOption2"
-        android:layout_width="wrap_content"
+        style="@style/ButtonApp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="83dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/btn_rounded"
         android:text="2"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonOption3"
-        app:layout_constraintHorizontal_bias="0.514"
-        app:layout_constraintStart_toEndOf="@+id/buttonOption1"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOption1"
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintWidth_percent=".7" />
 
     <Button
         android:id="@+id/buttonOption3"
-        android:layout_width="wrap_content"
+        style="@style/ButtonApp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="83dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/btn_rounded"
         android:text="Nada"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOption2"
+        app:layout_constraintWidth_percent=".7" />
 
     <ImageView
         android:id="@+id/imageViewIshihara"
-        android:layout_width="418dp"
-        android:layout_height="469dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
         android:src="@drawable/ishi5"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="-4dp" />
+        app:layout_constraintVertical_bias="0.156"
+        app:layout_constraintWidth_percent=".8" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Seleccione la opción que considere correcta"
+        android:layout_marginBottom="4dp"
+        android:background="@color/white_transparente"
+        android:text="@string/seleccione_la_opci_n_que_considere_correcta"
+        android:textAlignment="center"
+        android:textColor="#AA000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/imageViewIshihara"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
