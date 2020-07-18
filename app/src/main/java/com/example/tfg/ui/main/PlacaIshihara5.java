@@ -1,8 +1,5 @@
 package com.example.tfg.ui.main;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,25 +19,23 @@ import com.example.tfg.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PlacaIshihara#newInstance} factory method to
+ * Use the {@link PlacaIshihara5#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PlacaIshihara extends Fragment implements IOnBackPressed {
+public class PlacaIshihara5 extends Fragment implements IOnBackPressed {
     private Button bRtaCorrecta, bRtaDalt, bRtaAcro;
     ImageView placaIshi;
-    private int contador=0;
 
-    public PlacaIshihara() {
+    public PlacaIshihara5() {
         // Required empty public constructor
     }
-    public static PlacaIshihara newInstance(String param1, String param2) {
-        PlacaIshihara fragment = new PlacaIshihara();
+    public static PlacaIshihara5 newInstance(String param1, String param2) {
+        PlacaIshihara5 fragment = new PlacaIshihara5();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
     }
@@ -55,36 +50,31 @@ public class PlacaIshihara extends Fragment implements IOnBackPressed {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        getView().setBackgroundColor(Color.parseColor("#e3e5e4"));
-        bRtaCorrecta=getView().findViewById(R.id.buttonOption1); //TODO: implementar para que no sea siempre la primera
-        bRtaDalt=getView().findViewById(R.id.buttonOption2);
-        bRtaAcro=getView().findViewById(R.id.buttonOption3);
+        getView().setBackgroundColor(getResources().getColor(R.color.whiteBack));
+        bRtaCorrecta=getView().findViewById(R.id.button5Option1); //TODO: implementar para que no sea siempre la primera
+        bRtaDalt=getView().findViewById(R.id.button5Option2);
+        bRtaAcro=getView().findViewById(R.id.button5Option3);
         placaIshi=getView().findViewById(R.id.imageViewIshihara);
 
 
         bRtaCorrecta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Toast.makeText(getContext(),"Correcto!",Toast.LENGTH_SHORT).show();
-                    contador=contador+2;
-
+                PlacaIshihara42.contador=PlacaIshihara42.contador+9;
+                darResultado();
             }
         });
         bRtaDalt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Daltonismo!",Toast.LENGTH_SHORT).show();
-                contador++;
-
-
+                PlacaIshihara42.contador=PlacaIshihara42.contador+3;
                 darResultado();
             }
         });
         bRtaAcro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Acromatismo!",Toast.LENGTH_SHORT).show();
-
+                darResultado();
             }
         });
     }
@@ -97,6 +87,6 @@ private void darResultado(){
 }
     @Override
     public boolean onBackPressed() {
-        return true;
+        return false;
     }
 }

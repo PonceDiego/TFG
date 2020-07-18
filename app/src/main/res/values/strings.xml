@@ -8,5 +8,11 @@
     <string name="destacar_color">Destacar</string>
     <string name="realizar_test">Realizar test</string>
     <string name="reconocer_color">Reconocer color</string>
+    <string name="seleccione_la_opci_n_que_considere_correcta">Seleccione la opción que considere correcta</string>
+    <string name="acromatismo">Acromatismo</string>
+    <string name="normal">Visión stándar</string>
+    <string name="protanopia">Protanopia</string>
+    <string name="deuteranopia">Deuteranopia</string>
+    <string name="daltonico">Daltónico con deficiencia rojo-verde</string>
 </resources>
 

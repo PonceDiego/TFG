@@ -6,7 +6,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -16,10 +15,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +51,6 @@ public class MainFragment extends Fragment implements IOnBackPressed {
     private final int FILE_PIC=42;
     private String extra;
     private static final String CAPTURE_IMAGE_FILE_PROVIDER = "com.ponce.tfg";
-    private Context context;
     private int checkedItem = 0; // Diego
 
 
@@ -64,7 +62,6 @@ public class MainFragment extends Fragment implements IOnBackPressed {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        context=getActivity().getApplicationContext();
 
         return inflater.inflate(R.layout.main_fragment, container, false);
     }
@@ -174,7 +171,7 @@ public class MainFragment extends Fragment implements IOnBackPressed {
         bRealizarTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment placaIshihara = new PlacaIshihara();
+                Fragment placaIshihara = new PlacaIshihara42();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.main,placaIshihara);
                 transaction.addToBackStack(null);
@@ -186,6 +183,10 @@ public class MainFragment extends Fragment implements IOnBackPressed {
                 bCam.setEnabled(false);
                 bRealizarTest.setVisibility(View.INVISIBLE);
                 bReconocerColor.setVisibility(View.INVISIBLE);
+                bCam.setVisibility(View.INVISIBLE);
+                bFile.setVisibility(View.INVISIBLE);
+                bPaleta.setVisibility(View.INVISIBLE);
+                bPerfiles.setVisibility(View.INVISIBLE);
                 transaction.commit();
             }
         });
@@ -200,13 +201,13 @@ public class MainFragment extends Fragment implements IOnBackPressed {
         switch (MainActivity.currentTheme){
             default:
             case "VioletaTheme":
-               violetaSettings(window,mActionBar);
+                violetaSettings(window,mActionBar);
                 break;
             case "AzulTheme":
                 azulSettings(window,mActionBar);
                 break;
             case "RojoTheme":
-               rojoSettings(window,mActionBar);
+                rojoSettings(window,mActionBar);
                 break;
             case "GreenTheme":
                 verdeSettings(window,mActionBar);
@@ -238,8 +239,8 @@ public class MainFragment extends Fragment implements IOnBackPressed {
                 elegido=3;
                 break;
 
-            }
-            builder.setSingleChoiceItems(paletas,elegido , new DialogInterface.OnClickListener() {
+        }
+        builder.setSingleChoiceItems(paletas,elegido , new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ActionBar mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
@@ -260,7 +261,7 @@ public class MainFragment extends Fragment implements IOnBackPressed {
                         break;
                 }
             }
-            });
+        });
 
         // add OK and Cancel buttons
         builder.setPositiveButton(getResources().getString(R.string.confirm), new DialogInterface.OnClickListener() {
@@ -313,25 +314,12 @@ public class MainFragment extends Fragment implements IOnBackPressed {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
-
         startActivityForResult(intent, FILE_PIC);
+    }
 
-    }
-    @Override
-    public boolean onBackPressed() {
-        bRealizarTest.setEnabled(true);
-        bReconocerColor.setEnabled(true);
-        bRealizarTest.setVisibility(View.VISIBLE);
-        bReconocerColor.setVisibility(View.VISIBLE);
-        bPaleta.setEnabled(true);
-        bPerfiles.setEnabled(true);
-        bCam.setEnabled(true);
-        bFile.setEnabled(true);
-        return false;
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode ==CAMERA_PIC || requestCode==FILE_PIC && resultCode == getActivity().RESULT_OK) {
+        if (resultCode == getActivity().RESULT_OK  && requestCode ==CAMERA_PIC || requestCode==FILE_PIC) {
             Intent intent2 = new Intent(getActivity(), Main2Activity.class);
             if (requestCode == FILE_PIC){
                 if (data == null) {
@@ -339,12 +327,18 @@ public class MainFragment extends Fragment implements IOnBackPressed {
                     Toast.makeText(getContext(),"Ocurrió un error, por favor inténtelo nuevamente.",Toast.LENGTH_LONG).show();
                     return;
                 }
-                intent2.putExtra("fileUri",data.getData());
-            }else{
+                if (getSize(getContext(),data.getData())>1000000){
+                    Toast.makeText(getContext(),"Imagen muy grande!",Toast.LENGTH_LONG).show();
+                    return;
+                }else{
+                    Log.v("size","size: "+getSize(getContext(),data.getData()));
+                    intent2.putExtra("fileUri",data.getData());
+                }
+            }else {
                 intent2.putExtra("photoUri",extra);
             }
             startActivityForResult(intent2,1);
-        }
+        }else return;
     }
     private void violetaSettings(Window window, ActionBar mActionBar){
 
@@ -374,5 +368,39 @@ public class MainFragment extends Fragment implements IOnBackPressed {
         window.setNavigationBarColor(getResources().getColor(R.color.primarioRojoLight));
         mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioRojo)));
         getView().setBackground(getResources().getDrawable(R.drawable.background_red));
+    }
+    private static int getSize(Context context, Uri uri) {
+        String fileSize = null;
+        Cursor cursor = context.getContentResolver()
+                .query(uri, null, null, null, null, null);
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+
+                // get file size
+                int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+                if (!cursor.isNull(sizeIndex)) {
+                    fileSize = cursor.getString(sizeIndex);
+                }
+            }
+        } finally {
+            cursor.close();
+        }
+        return Integer.parseInt(fileSize);
+    }
+    @Override
+    public boolean onBackPressed() {
+        bRealizarTest.setEnabled(true);
+        bReconocerColor.setEnabled(true);
+        bRealizarTest.setVisibility(View.VISIBLE);
+        bReconocerColor.setVisibility(View.VISIBLE);
+
+        bCam.setEnabled(true);
+        bFile.setEnabled(true);
+
+        bPaleta.setEnabled(true);
+        bPerfiles.setEnabled(true);
+        bPaleta.setVisibility(View.VISIBLE);
+        bPerfiles.setVisibility(View.VISIBLE);
+        return false;
     }
 }
