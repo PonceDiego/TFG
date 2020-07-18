@@ -24,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tfg.ui.main.MainFragment;
 import com.skydoves.colorpickerview.ColorEnvelope;
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.ColorPickerView;
@@ -59,37 +58,6 @@ public class Main2Activity extends AppCompatActivity {
         });
         nombreColor=findViewById(R.id.textViewColor);
         colorPickerView=findViewById(R.id.imageViewReconocer);
-        View view=findViewById(R.id.view);
-        Window window= getWindow();
-        switch (MainActivity.currentTheme){
-            default:
-            case "VioletaTheme":
-                window.setStatusBarColor(getResources().getColor(R.color.primarioVioletaDark));
-                window.setNavigationBarColor(getResources().getColor(R.color.primarioVioletaLight));
-                view.setBackgroundColor(getColor(R.color.primarioVioletaLight));
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioVioleta)));
-                break;
-            case "AzulTheme":
-                window.setStatusBarColor(getResources().getColor(R.color.primarioAzulDark));
-                window.setNavigationBarColor(getResources().getColor(R.color.primarioAzulLight));
-                view.setBackgroundColor(getColor(R.color.primarioAzulLight));
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioAzul)));
-                break;
-            case "RojoTheme":
-                window.setStatusBarColor(getResources().getColor(R.color.primarioRojoDark));
-                window.setNavigationBarColor(getResources().getColor(R.color.primarioRojoLight));
-                view.setBackgroundColor(getColor(R.color.primarioRojoLight));
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioRojo)));
-                break;
-            case "GreenTheme":
-                window.setStatusBarColor(getResources().getColor(R.color.primarioVerdeDark));
-                window.setNavigationBarColor(getResources().getColor(R.color.primarioVerdeLight));
-                view.setBackgroundColor(getColor(R.color.primarioVerdeLight));
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioVerde)));
-                break;
-        }
-
-
         final Bundle b = getIntent().getExtras();
         if (!b.isEmpty()) {
             Main2Activity.this.runOnUiThread(new Runnable() {

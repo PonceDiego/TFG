@@ -1,6 +1,5 @@
 package com.example.tfg.ui.main;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +26,6 @@ import com.example.tfg.R;
 public class PlacaIshihara extends Fragment implements IOnBackPressed {
     private Button bRtaCorrecta, bRtaDalt, bRtaAcro;
     ImageView placaIshi;
-    private int contador=0;
 
     public PlacaIshihara() {
         // Required empty public constructor
@@ -55,7 +52,7 @@ public class PlacaIshihara extends Fragment implements IOnBackPressed {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        getView().setBackgroundColor(Color.parseColor("#e3e5e4"));
+        getView().setBackgroundColor(Color.LTGRAY);
         bRtaCorrecta=getView().findViewById(R.id.buttonOption1); //TODO: implementar para que no sea siempre la primera
         bRtaDalt=getView().findViewById(R.id.buttonOption2);
         bRtaAcro=getView().findViewById(R.id.buttonOption3);
@@ -66,7 +63,6 @@ public class PlacaIshihara extends Fragment implements IOnBackPressed {
             @Override
             public void onClick(View v) {
                     Toast.makeText(getContext(),"Correcto!",Toast.LENGTH_SHORT).show();
-                    contador=contador+2;
 
             }
         });
@@ -74,10 +70,7 @@ public class PlacaIshihara extends Fragment implements IOnBackPressed {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(),"Daltonismo!",Toast.LENGTH_SHORT).show();
-                contador++;
 
-
-                darResultado();
             }
         });
         bRtaAcro.setOnClickListener(new View.OnClickListener() {
@@ -88,13 +81,7 @@ public class PlacaIshihara extends Fragment implements IOnBackPressed {
             }
         });
     }
-private void darResultado(){
-    Fragment resultado = new ResultadoFragment();
-    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-    transaction.replace(R.id.main,resultado);
-    transaction.addToBackStack(null);
-    transaction.commit();
-}
+
     @Override
     public boolean onBackPressed() {
         return true;
