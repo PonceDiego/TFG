@@ -8,10 +8,10 @@
 - [x] Cargar imagen
 - [x] Tomar foto
 - [x] Describir color seleccionado
-- [ ] Destacar color específico
+- [x] Destacar color específico
 - [x] Ver paleta de colores
-- [ ] Ver placas de Ishihara
-- [ ] Ver resultado del test
+- [x] Ver placas de Ishihara
+- [x] Ver resultado del test
 - [x] Seleccionar paleta principal
 - [x] Ver lista de perfiles
 - [ ] Agregar perfil

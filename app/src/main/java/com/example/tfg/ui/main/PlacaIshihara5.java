@@ -22,7 +22,11 @@ import com.example.tfg.R;
  * Use the {@link PlacaIshihara5#newInstance} factory method to
  * create an instance of this fragment.
  */
+<<<<<<< HEAD
 public class PlacaIshihara5 extends Fragment {
+=======
+public class PlacaIshihara5 extends Fragment implements IOnBackPressed {
+>>>>>>> 750f52664e69bcdd1bc4ebce5520fb452ec0e966
     private Button bRtaCorrecta, bRtaDalt, bRtaAcro;
     ImageView placaIshi;
 
@@ -85,4 +89,11 @@ private void darResultado(){
     transaction.addToBackStack(null);
     transaction.commit();
 }
+<<<<<<< HEAD
+=======
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+>>>>>>> 750f52664e69bcdd1bc4ebce5520fb452ec0e966
 }
