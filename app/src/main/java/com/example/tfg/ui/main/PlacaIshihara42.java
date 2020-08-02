@@ -15,7 +15,13 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.tfg.IOnBackPressed;
 import com.example.tfg.R;
 
+
 public class PlacaIshihara42 extends Fragment {
+
+public class PlacaIshihara42 extends Fragment {
+
+public class PlacaIshihara42 extends Fragment implements IOnBackPressed {
+
     private Button bRtaNormal, bRtaRojo, bRtaVerde,bRtaAcro;
     public static int contador;
 
@@ -87,6 +93,11 @@ public class PlacaIshihara42 extends Fragment {
         transaction.replace(R.id.main,placa26);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
     }
 
 }
