@@ -27,11 +27,11 @@
 
 
 
-
+    <color name="whiteBack">#e3e5e4</color>
     <color name="background">#d3d3d3</color>
     <color name="lightBlue" >#add8e6 </color>
     <color name="white">#ffffff</color>
-    <color name="white_transparente">#88ffffff</color>
+    <color name="white_transparente">#40ffffff</color>
     <color name="black">#000000</color>
     <color name="black_transparente">#88000000</color>
 </resources>

@@ -3,6 +3,7 @@ package com.example.tfg;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tfg.ui.main.MainFragment;
 import com.skydoves.colorpickerview.ColorEnvelope;
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.ColorPickerView;
@@ -39,11 +41,13 @@ public class Main2Activity extends AppCompatActivity {
     private TextView nombreColor;
     private ColorPickerView colorPickerView;
     private Bitmap bitmap;
+    private ProgressDialog progresdialoglistview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        progresdialoglistview=new ProgressDialog(Main2Activity.this);
     }
     @Override
     protected void onResume() {
@@ -58,6 +62,37 @@ public class Main2Activity extends AppCompatActivity {
         });
         nombreColor=findViewById(R.id.textViewColor);
         colorPickerView=findViewById(R.id.imageViewReconocer);
+        View view=findViewById(R.id.view);
+        Window window= getWindow();
+        switch (MainActivity.currentTheme){
+            default:
+            case "VioletaTheme":
+                window.setStatusBarColor(getResources().getColor(R.color.primarioVioletaDark));
+                window.setNavigationBarColor(getResources().getColor(R.color.primarioVioletaLight));
+                view.setBackgroundColor(getColor(R.color.primarioVioletaLight));
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioVioleta)));
+                break;
+            case "AzulTheme":
+                window.setStatusBarColor(getResources().getColor(R.color.primarioAzulDark));
+                window.setNavigationBarColor(getResources().getColor(R.color.primarioAzulLight));
+                view.setBackgroundColor(getColor(R.color.primarioAzulLight));
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioAzul)));
+                break;
+            case "RojoTheme":
+                window.setStatusBarColor(getResources().getColor(R.color.primarioRojoDark));
+                window.setNavigationBarColor(getResources().getColor(R.color.primarioRojoLight));
+                view.setBackgroundColor(getColor(R.color.primarioRojoLight));
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioRojo)));
+                break;
+            case "GreenTheme":
+                window.setStatusBarColor(getResources().getColor(R.color.primarioVerdeDark));
+                window.setNavigationBarColor(getResources().getColor(R.color.primarioVerdeLight));
+                view.setBackgroundColor(getColor(R.color.primarioVerdeLight));
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primarioVerde)));
+                break;
+        }
+
+
         final Bundle b = getIntent().getExtras();
         if (!b.isEmpty()) {
             Main2Activity.this.runOnUiThread(new Runnable() {
@@ -145,7 +180,11 @@ public class Main2Activity extends AppCompatActivity {
                 .show();
     }
     private final class DetectarColor extends AsyncTask<MyTaskParams,Void,int[][]>{
-
+        @Override
+        protected void onPreExecute() {
+            progresdialoglistview.setMessage("Procesando");
+            progresdialoglistview.show();
+        }
 
         @Override
         protected int[][] doInBackground(MyTaskParams... myTaskParams) {
@@ -164,7 +203,7 @@ public class Main2Activity extends AppCompatActivity {
             for(int i=0;i<ancho;i++){
                 for (int j=0;j<altura;j++){
                     int argb=b.getPixel(i,j);
-                    int alpha = 0xFF & (argb >> 24);
+                    int alpha;
                     int red = 0xFF & ( argb >> 16);
                     int green = 0xFF & (argb >> 8 );
                     int blue = 0xFF & (argb >> 0 );
@@ -174,7 +213,7 @@ public class Main2Activity extends AppCompatActivity {
                     blueDivision=Math.abs(blueR-blue);
                     greenDivision=Math.abs(greenR-green);
 
-                    if (redDivision>50||blueDivision>50||greenDivision>50){
+                    if (redDivision>35||blueDivision>35||greenDivision>35){
                         if(red<105){
                             red=red+150;
                         }else if (red==255){
@@ -190,7 +229,7 @@ public class Main2Activity extends AppCompatActivity {
                         }else if (blue==255){
                             blue=200;
                         }else blue=255;
-                        alpha=50;
+                        alpha=100;
 
                         nuevoARGB=(alpha << 24) | (red << 16 ) | (green<<8) | blue;
                         arrayPixelexColores[i][j]=nuevoARGB;
@@ -202,6 +241,7 @@ public class Main2Activity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(int[][] pixeles) {
+
             int ancho = pixeles.length;
             int alto= pixeles[0].length;
             Bitmap bitDestacado= Bitmap.createBitmap
@@ -228,6 +268,9 @@ public class Main2Activity extends AppCompatActivity {
             builder.addContentView(imageView, new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
+            if (progresdialoglistview.isShowing()) {
+                progresdialoglistview.dismiss();
+            }
             builder.show();
         }
     }
