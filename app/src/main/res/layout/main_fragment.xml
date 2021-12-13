@@ -50,19 +50,18 @@
 
     <Button
         android:id="@+id/buttonRealizarTest"
+        style="@style/ButtonApp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/btn_rounded"
         android:text="@string/realizar_test"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.383"
-        app:layout_constraintWidth_percent=".6"
-        style="@style/ButtonApp"
-        android:background="@drawable/btn_rounded"
-        />
+        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintWidth_percent=".6" />
 
     <Button
         android:id="@+id/buttonReconocerColor"
@@ -73,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonRealizarTest"
-        app:layout_constraintVertical_bias="0.194"
+        app:layout_constraintVertical_bias="0.2"
         app:layout_constraintWidth_percent=".6"
         style="@style/ButtonApp"
         android:background="@drawable/btn_rounded"
@@ -81,24 +80,37 @@
 
     <ImageButton
         android:id="@+id/buttonPerfiles"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent=".05"
-        app:layout_constraintWidth_percent=".1"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/btn_rounded"
         android:src="@drawable/profiles24px"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent=".05"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/btn_rounded"/>
+        app:layout_constraintWidth_percent=".1" />
 
     <ImageButton
         android:id="@+id/buttonPaleta"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent=".05"
-        app:layout_constraintWidth_percent=".1"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/btn_rounded"
         android:src="@drawable/palette24px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/btn_rounded"/>
+        app:layout_constraintHeight_percent=".05"
+        app:layout_constraintWidth_percent=".1" />
+
+    <TextView
+        android:id="@+id/textViewResultadoMain"
+        android:layout_width="260dp"
+        android:layout_height="130dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonReconocerColor"
+        app:layout_constraintVertical_bias="0.463" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

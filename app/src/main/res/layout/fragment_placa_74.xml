@@ -5,67 +5,66 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.placas.PlacaIshihara5">
+    tools:context=".ui.main.PlacaIshihara74"
+    android:background="@color/whiteBack"
+    >
 
     <Button
-        android:id="@+id/button5Option1"
+        android:id="@+id/button74Option1"
         style="@style/ButtonApp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:background="@drawable/btn_rounded"
-        android:text="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewIshihara"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewIshihara74"
         app:layout_constraintVertical_bias="0.2"
         app:layout_constraintWidth_percent=".7" />
 
     <Button
-        android:id="@+id/button5Option2"
+        android:id="@+id/button74Option2"
         style="@style/ButtonApp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:background="@drawable/btn_rounded"
-        android:text="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5Option1"
+        app:layout_constraintTop_toBottomOf="@+id/button74Option1"
         app:layout_constraintVertical_bias="0.2"
         app:layout_constraintWidth_percent=".7" />
 
     <Button
-        android:id="@+id/button5Option3"
+        android:id="@+id/button74Option3"
         style="@style/ButtonApp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/btn_rounded"
-        android:text="Nada"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5Option2"
+        app:layout_constraintTop_toBottomOf="@+id/button74Option2"
         app:layout_constraintWidth_percent=".7" />
 
+
     <ImageView
-        android:id="@+id/imageViewIshihara"
+        android:id="@+id/imageViewIshihara74"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="2dp"
-        android:src="@drawable/ishi5"
+        android:src="@drawable/ishi74"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.156"
+        app:layout_constraintVertical_bias="0.2"
         app:layout_constraintWidth_percent=".8" />
 
     <TextView
@@ -79,7 +78,7 @@
         android:textColor="#AA000000"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewIshihara"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewIshihara74"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

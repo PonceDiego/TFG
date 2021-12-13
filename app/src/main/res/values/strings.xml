@@ -1,12 +1,17 @@
 <resources>
     <string name="app_name">TFG</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="confirm">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="destacar_color">Destacar</string>
     <string name="realizar_test">Realizar test</string>
     <string name="reconocer_color">Reconocer color</string>
+    <string name="seleccione_la_opci_n_que_considere_correcta">Seleccione la opción que considere correcta</string>
+    <string name="acromatismo"><b>Acromatismo</b>\n\nUsted no puede distinguir ninguno de los tres colores RGB</string>
+    <string name="normal"><b>Visión stándar</b>\n\nUsted puede observar los tres colores RGB sin problemas</string>
+    <string name="protanopia"><b>Protanopia</b>\n\nUsted no puede distinguir el color rojo</string>
+    <string name="deuteranopia"><b>Deuteranopia</b>\n\nUsted no puede distinguir el color verde</string>
+    <string name="daltonico"><b>Daltónico con deficiencia rojo-verde</b>\n\nNo se pudo identficar el canal afectado</string>
+    <string name="opcion_nada">Nada</string>
 </resources>
 
